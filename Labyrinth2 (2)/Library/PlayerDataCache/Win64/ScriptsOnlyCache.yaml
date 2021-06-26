@@ -4,7 +4,16 @@ ScriptsOnlyBuild:
     - ChangeScene
     - Exit
     - Options
-    - PlayerController
+    Bolt.Core.Runtime.dll:
+    - Bolt.SceneVariables
+    - Bolt.Variables
+    - Bolt.VariablesAsset
+    Bolt.Flow.Runtime.dll:
+    - Bolt.FlowMachine
+    Ludiq.Core.Runtime.dll:
+    - Ludiq.DictionaryAsset
+    Ludiq.Graphs.Editor.dll:
+    - Ludiq.GraphWindow
     Unity.CollabProxy.Editor.dll:
     - Unity.Cloud.Collaborate.UserInterface.CollaborateWindow
     - Unity.Cloud.Collaborate.UserInterface.WindowCache
@@ -55,29 +64,31 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1486}
+      Script: {instanceID: 1542}
     - Class: 114
-      Script: {instanceID: 1684}
+      Script: {instanceID: 1748}
     - Class: 114
-      Script: {instanceID: 2200}
+      Script: {instanceID: 2272}
     - Class: 114
-      Script: {instanceID: 2614}
+      Script: {instanceID: 2556}
     - Class: 114
-      Script: {instanceID: 2792}
+      Script: {instanceID: 2588}
     - Class: 114
-      Script: {instanceID: 3016}
+      Script: {instanceID: 2708}
     - Class: 114
-      Script: {instanceID: 3086}
+      Script: {instanceID: 2894}
     - Class: 114
-      Script: {instanceID: 3334}
+      Script: {instanceID: 3134}
     - Class: 114
-      Script: {instanceID: 3470}
+      Script: {instanceID: 3136}
     - Class: 114
-      Script: {instanceID: 15012}
+      Script: {instanceID: 3208}
     - Class: 114
-      Script: {instanceID: 29872}
+      Script: {instanceID: 3476}
     - Class: 114
-      Script: {instanceID: 30762}
+      Script: {instanceID: 3614}
+    - Class: 114
+      Script: {instanceID: 3744}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -126,14 +137,48 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 3054}
+      Script: {instanceID: 1542}
     - Class: 114
-      Script: {instanceID: 15012}
+      Script: {instanceID: 1600}
+    - Class: 114
+      Script: {instanceID: 1748}
+    - Class: 114
+      Script: {instanceID: 2272}
+    - Class: 114
+      Script: {instanceID: 2556}
+    - Class: 114
+      Script: {instanceID: 2588}
+    - Class: 114
+      Script: {instanceID: 2708}
+    - Class: 114
+      Script: {instanceID: 2894}
+    - Class: 114
+      Script: {instanceID: 3134}
+    - Class: 114
+      Script: {instanceID: 3208}
+    - Class: 114
+      Script: {instanceID: 3476}
+    - Class: 114
+      Script: {instanceID: 3614}
+    - Class: 114
+      Script: {instanceID: 3738}
+    - Class: 114
+      Script: {instanceID: 3742}
     - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
     - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
       Script: {instanceID: 0}
   scriptHashData:
   - hash:
@@ -160,6 +205,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_InputField
+  - hash:
+      serializedVersion: 2
+      Hash: 2574ac7d50617d23cdefe4ad22f5e1ad
+    assemblyName: Bolt.Flow.Runtime.dll
+    namespaceName: Bolt
+    className: FlowMachine
+  - hash:
+      serializedVersion: 2
+      Hash: 2574ac7d50617d23cdefe4ad22f5e1ad
+    assemblyName: Bolt.Flow.Runtime.dll
+    namespaceName: Bolt
+    className: FlowMacro
   - hash:
       serializedVersion: 2
       Hash: caa533b001ae39b864ba8425019e2268
@@ -238,6 +295,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_FontAsset
+  - hash:
+      serializedVersion: 2
+      Hash: 2574ac7d50617d23cdefe4ad22f5e1ad
+    assemblyName: Bolt.State.Runtime.dll
+    namespaceName: Bolt
+    className: StateMachine
+  - hash:
+      serializedVersion: 2
+      Hash: 2574ac7d50617d23cdefe4ad22f5e1ad
+    assemblyName: Bolt.State.Runtime.dll
+    namespaceName: Bolt
+    className: StateMacro
   - hash:
       serializedVersion: 2
       Hash: 18c222bef9ae745ce69ddde9b74337ca
@@ -342,10 +411,40 @@ ScriptsOnlyBuild:
     className: RawImage
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Bolt.Flow.Editor.dll
+    namespaceName: Bolt
+    className: GlobalMessageListenerEditor
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Bolt.Flow.Editor.dll
+    namespaceName: Bolt
+    className: MessageListenerEditor
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ChangeScene
+  - hash:
+      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: ControlTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Level
+  - hash:
+      serializedVersion: 2
+      Hash: c5c0f288a0c09b31972857473f418fea
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Options
   - hash:
       serializedVersion: 2
       Hash: 5f170942ee57c7a568f5bcfc7521adea
@@ -402,6 +501,18 @@ ScriptsOnlyBuild:
     className: TMP_Settings
   - hash:
       serializedVersion: 2
+      Hash: ed85181092d6a9281f5c4470352f96a1
+    assemblyName: Ludiq.Graphs.Editor.dll
+    namespaceName: Ludiq
+    className: GraphInspectorWindow
+  - hash:
+      serializedVersion: 2
+      Hash: ed85181092d6a9281f5c4470352f96a1
+    assemblyName: Ludiq.Graphs.Editor.dll
+    namespaceName: Ludiq
+    className: GraphWindow
+  - hash:
+      serializedVersion: 2
       Hash: cf9f5cf2c3145a37ac07f00e50e460f9
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -412,6 +523,18 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
     className: EventSystem
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Ludiq.Core.Runtime.dll
+    namespaceName: Ludiq
+    className: CoroutineRunner
+  - hash:
+      serializedVersion: 2
+      Hash: 2574ac7d50617d23cdefe4ad22f5e1ad
+    assemblyName: Ludiq.Core.Runtime.dll
+    namespaceName: Ludiq
+    className: DictionaryAsset
   - hash:
       serializedVersion: 2
       Hash: fe64a45214940b510a0ec79c96d43498
@@ -438,6 +561,12 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
+      Hash: ed85181092d6a9281f5c4470352f96a1
+    assemblyName: Bolt.Core.Editor.dll
+    namespaceName: Bolt
+    className: VariablesWindow
+  - hash:
+      serializedVersion: 2
       Hash: 6980e81ddc615a861309d2d659cc3760
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -460,6 +589,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: GraphicRaycaster
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Exit
   - hash:
       serializedVersion: 2
       Hash: e7a73f5f78ba6445195ec23b74a1ce2d
@@ -496,6 +631,36 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools.TestRunner.Callbacks
     className: TestResultRendererCallback
+  - hash:
+      serializedVersion: 2
+      Hash: cd0ecdca0166232906c6f2df9dddc3d3
+    assemblyName: Ludiq.Core.Editor.dll
+    namespaceName: Ludiq
+    className: FuzzyWindow
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Ludiq.Core.Editor.dll
+    namespaceName: Ludiq
+    className: LudiqBehaviourEditor
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Ludiq.Core.Editor.dll
+    namespaceName: Ludiq
+    className: LudiqScriptableObjectEditor
+  - hash:
+      serializedVersion: 2
+      Hash: 02e3273cfbbe6658280ac83f81e4627f
+    assemblyName: Ludiq.Core.Editor.dll
+    namespaceName: Ludiq
+    className: WebWindow
+  - hash:
+      serializedVersion: 2
+      Hash: cd0ecdca0166232906c6f2df9dddc3d3
+    assemblyName: Ludiq.Core.Editor.dll
+    namespaceName: Ludiq
+    className: WrappedEditorWindow
   - hash:
       serializedVersion: 2
       Hash: 748dd2a2a28da4e618912da5ac45684b
@@ -570,34 +735,52 @@ ScriptsOnlyBuild:
     className: View
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Bolt.Core.Runtime.dll
+    namespaceName: Bolt
+    className: AnimatorMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Bolt.Core.Runtime.dll
+    namespaceName: Bolt
+    className: GlobalMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Bolt.Core.Runtime.dll
+    namespaceName: Bolt
+    className: SceneVariables
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Bolt.Core.Runtime.dll
+    namespaceName: Bolt
+    className: UnityMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 2574ac7d50617d23cdefe4ad22f5e1ad
+    assemblyName: Bolt.Core.Runtime.dll
+    namespaceName: Bolt
+    className: Variables
+  - hash:
+      serializedVersion: 2
+      Hash: 2574ac7d50617d23cdefe4ad22f5e1ad
+    assemblyName: Bolt.Core.Runtime.dll
+    namespaceName: Bolt
+    className: VariablesAsset
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Bolt.Core.Runtime.dll
+    namespaceName: Bolt
+    className: VariablesSaver
+  - hash:
+      serializedVersion: 2
       Hash: 4fd8bf02e3089425d3502e26c44ba31a
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TextContainer
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: ChangeScene
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Level
-  - hash:
-      serializedVersion: 2
-      Hash: c5c0f288a0c09b31972857473f418fea
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Options
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Exit
   platform: 19
   scenePathNames:
   - Assets/Scenes/Menu.unity

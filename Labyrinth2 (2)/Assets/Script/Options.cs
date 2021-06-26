@@ -8,7 +8,7 @@ public class Options : MonoBehaviour
 {
     public Slider Sans;
     public InputField SansInput;
-    public float SansValue = 2f;
+    public float SansValue = 1f;
     // Start is called before the first frame update
     void Start()
     {
