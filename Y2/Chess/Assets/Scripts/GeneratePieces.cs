@@ -15,28 +15,28 @@ public class GeneratePieces : MonoBehaviour
             {
                 if (j > 5 || j < 2)
                 {
-                    var BP = new GameObject();
-                    var SR = BP.AddComponent<SpriteRenderer>();
-                    BP.transform.parent = transform;
+                    var P = new GameObject();
+                    var SR = P.AddComponent<SpriteRenderer>();
+                    P.transform.parent = transform;
                     switch (j)
                     {
                         case 0:
-                            BP.name = n[p[i]+6];
+                            P.name = n[p[i]+6];
                             SR.sprite = Resources.LoadAll<Sprite>("cp")[p[i]+6];
                             break;
                         
                         case 1:
-                            BP.name = n[11];
+                            P.name = n[11];
                             SR.sprite = Resources.LoadAll<Sprite>("cp")[11];
                             break;
                         
                         case 6:
-                            BP.name = n[5];
+                            P.name = n[5];
                             SR.sprite = Resources.LoadAll<Sprite>("cp")[5];
                             break;
                         
                         case 7:
-                            BP.name = n[i];
+                            P.name = n[p[i]];
                             SR.sprite = Resources.LoadAll<Sprite>("cp")[p[i]];
                             break;
                     }
@@ -48,9 +48,16 @@ public class GeneratePieces : MonoBehaviour
                         j*SR.size.y,
                         -1
                     );
-                    BP.transform.position = spawn;
-                    BP.AddComponent<BoxCollider2D>();
-                    BP.AddComponent<Moves>();
+                    P.transform.position = spawn;
+                    P.AddComponent<BoxCollider2D>();
+                    P.AddComponent<Moves>();
+                    if (P.name.Contains("W"))
+                    {
+                        P.tag = "White";
+                    }else
+                    {
+                        P.tag = "Black";
+                    }
                 }
             }
         }

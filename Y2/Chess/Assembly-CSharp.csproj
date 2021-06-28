@@ -36,9 +36,9 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\GenerateBoard.cs" />
      <Compile Include="Assets\Scripts\GeneratePieces.cs" />
      <Compile Include="Assets\Scripts\Moves.cs" />
+     <Compile Include="Assets\Scripts\GenerateBoard.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/Unity 2021.1.10f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
