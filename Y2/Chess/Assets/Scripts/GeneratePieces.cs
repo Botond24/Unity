@@ -7,6 +7,8 @@ public class GeneratePieces : MonoBehaviour
     // Start is called before the first frame update
     private List<int> p = new List<int>(){4,3,2,1,0,2,3,4};
     private List<string> n = new List<string>(){"BK","BQ","BB","BN","BR","BP","WK","WQ","WB","WN","WR","WP"};
+    public List<GameObject> Keys = new List<GameObject>();
+    public Dictionary<GameObject, List<int>> allMoves = new Dictionary<GameObject, List<int>>();
     void Start()
     {
         for (int i = 0; i < 8; i++)
@@ -51,6 +53,8 @@ public class GeneratePieces : MonoBehaviour
                     P.transform.position = spawn;
                     P.AddComponent<BoxCollider2D>();
                     P.AddComponent<Moves>();
+                    Keys.Add(P);
+                    allMoves.Add(P, new List<int>());
                     if (P.name.Contains("W"))
                     {
                         P.tag = "White";
@@ -61,5 +65,21 @@ public class GeneratePieces : MonoBehaviour
                 }
             }
         }
+    }
+    Transform GetClosest(List<Transform> BP, Transform Pt)
+    {
+        Transform T = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = Pt.position;
+        foreach (Transform tr in BP)
+        {
+            float dist = Vector3.Distance(tr.position, currentPos);
+            if (dist < minDist)
+            {
+                T = tr;
+                minDist = dist;
+            }
+        }
+        return T;
     }
 }

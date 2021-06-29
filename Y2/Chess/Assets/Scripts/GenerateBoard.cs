@@ -17,16 +17,6 @@ public class GenerateBoard : MonoBehaviour
             {
                 var BP = new GameObject(names[i*8+j]);
                 var SR = BP.AddComponent<SpriteRenderer>();
-                SR.sprite = Sprite.Create(Texture2D.whiteTexture, new Rect(0,0,Texture2D.whiteTexture.width,Texture2D.whiteTexture.height), new Vector2(Texture2D.whiteTexture.width/2,Texture2D.whiteTexture.height/2),100);
-                switch (s[i*8+j])
-                {
-                    case 0:
-                        SR.color = Color.grey;
-                        break;
-                    case 1:
-                        SR.color = Color.white;
-                        break;
-                }
                 SR.sprite = Resources.LoadAll<Sprite> ("cb")[s[i*8+j]];
                 BP.transform.parent = transform;
                 SR.drawMode = SpriteDrawMode.Sliced;
