@@ -7,9 +7,9 @@ public class Moves : MonoBehaviour
     private Camera Cam;
     private string a; 
     private List<Transform> BPs = new List<Transform>();
-     public Dictionary<GameObject, List<int>> everyMove = new Dictionary<GameObject, List<int>>();
+    public Dictionary<GameObject, List<int>> everyMove = new Dictionary<GameObject, List<int>>();
     public List<int> Moved = new List<int>();
-    private List<Transform> possibleMoves = new List<Transform>();
+    public List<Transform> possibleMoves = new List<Transform>();
     private List<int> BlackLocations = new List<int>();
     private List<int> WhiteLocations = new List<int>();
     void Start() {
@@ -19,12 +19,81 @@ public class Moves : MonoBehaviour
         everyMove = GameObject.Find("Pieces").GetComponent<GeneratePieces>().allMoves;
         Moved = everyMove[gameObject];
         Moved.Add(BPs.IndexOf(GetClosest(BPs)));
+        GenerateMoves();
     }
     void OnMouseDown()
     {
         GetLocations();                         //   -7, +1, +9
         possibleMoves.Clear();                  //   -8,  0, +8 
         int i = BPs.IndexOf(GetClosest(BPs));   //   -9, -1, +7
+        GenerateMoves();
+        foreach (Transform BP in possibleMoves)
+        {
+            BP.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+    }
+    void OnMouseDrag() {
+        gameObject.GetComponent<SpriteRenderer>().size = new Vector2(2.1f,2.1f);
+        transform.position = new Vector3(
+            Cam.ScreenToWorldPoint(Input.mousePosition).x,
+            Cam.ScreenToWorldPoint(Input.mousePosition).y,
+            -1.1f
+        );
+    }
+    void OnMouseUp()
+    {
+        foreach (var BP in possibleMoves)
+        {
+            BP.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+        transform.position = GetClosest(possibleMoves).position - new Vector3(0,0,1);
+        gameObject.GetComponent<SpriteRenderer>().size = new Vector2(2,2);
+        if (BPs.IndexOf(GetClosest(BPs)) != Moved[Moved.Count-1])
+        {
+            Moved.Add(BPs.IndexOf(GetClosest(BPs)));
+        }
+        foreach (KeyValuePair<GameObject, List<int>> kvp in everyMove)
+        {
+            if (kvp.Value[kvp.Value.Count-1] == Moved[Moved.Count-1] && kvp.Key != gameObject)
+            {
+                GameObject.Find("Pieces").GetComponent<GeneratePieces>().Keys.Remove(kvp.Key);
+                everyMove.Remove(kvp.Key);
+                Destroy(kvp.Key);
+                break;
+            }
+        }
+    }
+    public Transform GetClosest(List<Transform> BP)
+    {
+        Transform T = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = transform.position;
+        foreach (Transform tr in BP)
+        {
+            float dist = Vector3.Distance(tr.position, currentPos);
+            if (dist < minDist)
+            {
+                T = tr;
+                minDist = dist;
+            }
+        }
+        return T;
+    }
+    void GetLocations()
+    {
+        BlackLocations.Clear();
+        WhiteLocations.Clear();
+        foreach (GameObject OB in GameObject.FindGameObjectsWithTag("Black"))
+        {
+            BlackLocations.Add(BPs.IndexOf(OB.GetComponent<Moves>().GetClosest(BPs)));
+        }
+        foreach (GameObject OB in GameObject.FindGameObjectsWithTag("White"))
+        {
+            WhiteLocations.Add(BPs.IndexOf(OB.GetComponent<Moves>().GetClosest(BPs)));
+        }
+    }
+    void GenerateMoves()
+    {
         if (a.Contains("K"))       
         {
             switch (i % 8)
@@ -214,11 +283,6 @@ public class Moves : MonoBehaviour
                     }
                     break;
                 case 6:
-                    //   -14, -6, +2, +10, +18
-                    //   -15, -7, +1,  +9, +17
-                    //   -16, -8,  0,  +8, +16
-                    //   -17, -9, -1,  +7, +15 
-                    //   -18, -10, -2, +6, +14
                     if (0 <= i && i <= 7)
                     {
                         possibleMoves.Add(BPs[i+6]);
@@ -249,11 +313,6 @@ public class Moves : MonoBehaviour
                     }
                     break;
                 case 7:
-                    //   -14, -6, +2, +10, +18
-                    //   -15, -7, +1,  +9, +17
-                    //   -16, -8,  0,  +8, +16
-                    //   -17, -9, -1,  +7, +15 
-                    //   -18, -10, -2, +6, +14
                     if (0 <= i && i <= 7)
                     {
                         possibleMoves.Add(BPs[i+6]);
@@ -279,11 +338,7 @@ public class Moves : MonoBehaviour
                     }
                     break;
                 default:
-                    //   -14, -6, +2, +10, +18
-                    //   -15, -7, +1,  +9, +17
-                    //   -16, -8,  0,  +8, +16
-                    //   -17, -9, -1,  +7, +15 
-                    //   -18, -10, -2, +6, +14
+
                     if (0 <= i && i <= 7)
                     {
                         possibleMoves.Add(BPs[i+10]);
@@ -389,7 +444,6 @@ public class Moves : MonoBehaviour
         else if(a.Contains("R"))
         {
             int j = i;
-            j = i;
             while (j % 8 != 7)
             {
                 j += 1;
@@ -449,7 +503,6 @@ public class Moves : MonoBehaviour
         else
         {
             int j = i;
-            j = i;
             while (j % 8 != 7 && j < 56)
             {
                 j += 9;
@@ -580,70 +633,11 @@ public class Moves : MonoBehaviour
                     }
                 }
             }
-        possibleMoves.Add(BPs[i]);  
-        foreach (Transform BP in possibleMoves)
-        {
-            BP.GetComponent<SpriteRenderer>().color = Color.red;
-        }
-    }
-    void OnMouseDrag() {
-        gameObject.GetComponent<SpriteRenderer>().size = new Vector2(2.1f,2.1f);
-        transform.position = new Vector3(
-            Cam.ScreenToWorldPoint(Input.mousePosition).x,
-            Cam.ScreenToWorldPoint(Input.mousePosition).y,
-            -1.1f
-        );
-    }
-    void OnMouseUp()
-    {
-        foreach (var BP in possibleMoves)
-        {
-            BP.GetComponent<SpriteRenderer>().color = Color.white;
-        }
-        transform.position = GetClosest(possibleMoves).position - new Vector3(0,0,1);
-        gameObject.GetComponent<SpriteRenderer>().size = new Vector2(2,2);
-        if (BPs.IndexOf(GetClosest(BPs)) != Moved[Moved.Count-1])
-        {
-            Moved.Add(BPs.IndexOf(GetClosest(BPs)));
-        }
-        foreach (KeyValuePair<GameObject, List<int>> kvp in everyMove)
-        {
-            if (kvp.Value[kvp.Value.Count-1] == Moved[Moved.Count-1] && kvp.Key != gameObject)
-            {
-                GameObject.Find("Pieces").GetComponent<GeneratePieces>().Keys.Remove(kvp.Key);
-                everyMove.Remove(kvp.Key);
-                Destroy(kvp.Key);
-                break;
-            }
-        }
-    }
-    public Transform GetClosest(List<Transform> BP)
-    {
-        Transform T = null;
-        float minDist = Mathf.Infinity;
-        Vector3 currentPos = transform.position;
-        foreach (Transform tr in BP)
-        {
-            float dist = Vector3.Distance(tr.position, currentPos);
-            if (dist < minDist)
-            {
-                T = tr;
-                minDist = dist;
-            }
-        }
-        return T;
-    }
-    void GetLocations()
-    {
-        BlackLocations.Clear();
-        WhiteLocations.Clear();
-        foreach (GameObject OB in GameObject.FindGameObjectsWithTag("Black"))
-        {
-            BlackLocations.Add(BPs.IndexOf(OB.GetComponent<Moves>().GetClosest(BPs)));
-        }
-        foreach (GameObject OB in GameObject.FindGameObjectsWithTag("White"))
-        {
-            WhiteLocations.Add(BPs.IndexOf(OB.GetComponent<Moves>().GetClosest(BPs)));
-        }
+        possibleMoves.Add(BPs[i]);
     }
 }
+                    //   -14, -6, +2, +10, +18
+                    //   -15, -7, +1,  +9, +17
+                    //   -16, -8,  0,  +8, +16
+                    //   -17, -9, -1,  +7, +15 
+                    //   -18, -10, -2, +6, +14

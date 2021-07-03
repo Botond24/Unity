@@ -6,6 +6,7 @@ public class GeneratePieces : MonoBehaviour
 {
     private List<int> p = new List<int>(){4,3,2,1,0,2,3,4};
     private List<string> n = new List<string>(){"BK","BQ","BB","BN","BR","BP","WK","WQ","WB","WN","WR","WP"};
+    public Dictionary<GameObject, List<int>> allMoves = new Dictionary<GameObject, List<int>>();
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +48,13 @@ public class GeneratePieces : MonoBehaviour
                     P.transform.position = spawn;
                     P.AddComponent<BoxCollider2D>();
                     P.AddComponent<Moves>();
+                    if (P.name.Contains("W"))
+                    {
+                        P.tag = "White";
+                    } else {
+                        P.tag = "Black";
+                    }
+                    allMoves.Add(P, new List<int>());
                 }
             }
         }
