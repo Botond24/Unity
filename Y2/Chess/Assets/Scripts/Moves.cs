@@ -24,9 +24,8 @@ public class Moves : MonoBehaviour
     void OnMouseDown()
     {
         GetLocations();                         //   -7, +1, +9
-        possibleMoves.Clear();                  //   -8,  0, +8 
-        int i = BPs.IndexOf(GetClosest(BPs));   //   -9, -1, +7
-        GenerateMoves();
+        possibleMoves.Clear();                  //   -8,  0, +8
+        GenerateMoves();                        //   -9, -1, +7
         foreach (Transform BP in possibleMoves)
         {
             BP.GetComponent<SpriteRenderer>().color = Color.red;
@@ -94,6 +93,7 @@ public class Moves : MonoBehaviour
     }
     void GenerateMoves()
     {
+        int i = BPs.IndexOf(GetClosest(BPs));
         if (a.Contains("K"))       
         {
             switch (i % 8)
