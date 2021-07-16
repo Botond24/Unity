@@ -12,6 +12,8 @@ public class Moves : MonoBehaviour
     public List<Transform> possibleMoves = new List<Transform>();
     private List<int> BlackLocations = new List<int>();
     private List<int> WhiteLocations = new List<int>();
+    private List<Transform> BlackMoves = new List<Transform>();
+    private List<Transform> WhiteMoves = new List<Transform>();
     void Start() {
         a = gameObject.name;
         BPs = GameObject.Find("Board").GetComponent<GenerateBoard>().BPs;
@@ -20,6 +22,7 @@ public class Moves : MonoBehaviour
         Moved = everyMove[gameObject];
         Moved.Add(BPs.IndexOf(GetClosest(BPs)));
         GenerateMoves();
+        GetMoves();
     }
     void OnMouseDown()
     {
@@ -160,6 +163,28 @@ public class Moves : MonoBehaviour
                         possibleMoves.Add(BPs[i+7]);
                     }
                     break;
+            }
+            if (a.Contains("B"))
+            {
+                foreach (Transform tr in WhiteMoves)
+                {
+                    Debug.Log("WhiteMoves");
+                    Debug.Log("Remove");
+                    possibleMoves.Remove(tr);
+                }
+            }else
+            {
+                foreach (Transform tr in BlackMoves)
+                {
+                    if (possibleMoves.Contains(tr))
+                    {
+                        possibleMoves.Remove(tr);
+                    }
+                }
+            }
+            if (possibleMoves.Count == 0)
+            {
+                Destroy(gameObject);
             }
         }
         else if(a == "BB" || a == "WB")
@@ -413,20 +438,14 @@ public class Moves : MonoBehaviour
             }
 
             //taking enemy pieces
-            if (BlackLocations.Contains(i-7) && a.Contains("W")) //enemy left 4 white
+            if (a.Contains("W"))
             {
-                possibleMoves.Add(BPs[i-7]);
+                possibleMoves.Add(BPs[i - 7]);
+                possibleMoves.Add(BPs[i + 9]);
             }
-            if (BlackLocations.Contains(i+9) && a.Contains("W")) //enemy right 4 white
-            {
-                possibleMoves.Add(BPs[i+9]);
-            }
-            if (WhiteLocations.Contains(i-9) && a.Contains("B")) //enemy left 4 black
+            if (a.Contains("B"))
             {
                 possibleMoves.Add(BPs[i-9]);
-            }
-            if (WhiteLocations.Contains(i+7) && a.Contains("B")) //enemy right 4 black
-            {
                 possibleMoves.Add(BPs[i+7]);
             }
 
@@ -632,8 +651,33 @@ public class Moves : MonoBehaviour
                         goto Remove;
                     }
                 }
+                if (a.Contains("P"))
+                {
+                    if (a.Contains("W"))
+                    {
+                        if (BlackLocations.Contains(i+7))
+                        {
+                            
+                        }
+                    }
+                    else
+                    {
+                        
+                    }
+                }
             }
         possibleMoves.Add(BPs[i]);
+    }
+    void GetMoves() 
+    {
+        foreach (GameObject OB in GameObject.FindGameObjectsWithTag("Black"))
+        {
+            BlackMoves.AddRange(OB.GetComponent<Moves>().possibleMoves);
+        }
+        foreach (GameObject OB in GameObject.FindGameObjectsWithTag("White"))
+        {
+            WhiteMoves.AddRange(OB.GetComponent<Moves>().possibleMoves);
+        }
     }
 }
                     //   -14, -6, +2, +10, +18
