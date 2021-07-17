@@ -62,6 +62,7 @@
     <Compile Include="Assets\Scripts\GeneratePieces.cs" />
     <Compile Include="Assets\Scripts\Moves.cs" />
     <Compile Include="Assets\Scripts\GenerateBoard.cs" />
+    <Compile Include="Assets\Scripts\GameController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

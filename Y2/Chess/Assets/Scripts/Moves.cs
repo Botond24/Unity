@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Moves : MonoBehaviour
 {
+    private List<string> names = new List<string>() { "TQ", "TB", "TN", "TR" }; //t for temporary
     private Camera Cam;
     private string a; 
     private List<Transform> BPs = new List<Transform>();
@@ -12,8 +13,8 @@ public class Moves : MonoBehaviour
     public List<Transform> possibleMoves = new List<Transform>();
     private List<int> BlackLocations = new List<int>();
     private List<int> WhiteLocations = new List<int>();
-    private List<Transform> BlackMoves = new List<Transform>();
-    private List<Transform> WhiteMoves = new List<Transform>();
+    private List<Transform> BlackTakes = new List<Transform>();
+    private List<Transform> WhiteTakes = new List<Transform>();
     void Start() {
         a = gameObject.name;
         BPs = GameObject.Find("Board").GetComponent<GenerateBoard>().BPs;
@@ -22,7 +23,7 @@ public class Moves : MonoBehaviour
         Moved = everyMove[gameObject];
         Moved.Add(BPs.IndexOf(GetClosest(BPs)));
         GenerateMoves();
-        GetMoves();
+        GetTakes();
     }
     void OnMouseDown()
     {
@@ -50,19 +51,21 @@ public class Moves : MonoBehaviour
         }
         transform.position = GetClosest(possibleMoves).position - new Vector3(0,0,1);
         gameObject.GetComponent<SpriteRenderer>().size = new Vector2(2,2);
-        if (BPs.IndexOf(GetClosest(BPs)) != Moved[Moved.Count-1])
+        if (BPs.IndexOf(GetClosest(BPs)) != Moved[Moved.Count - 1])
         {
             Moved.Add(BPs.IndexOf(GetClosest(BPs)));
-        }
-        foreach (KeyValuePair<GameObject, List<int>> kvp in everyMove)
-        {
-            if (kvp.Value[kvp.Value.Count-1] == Moved[Moved.Count-1] && kvp.Key != gameObject)
+            foreach (KeyValuePair<GameObject, List<int>> kvp in everyMove)
             {
-                GameObject.Find("Pieces").GetComponent<GeneratePieces>().Keys.Remove(kvp.Key);
-                everyMove.Remove(kvp.Key);
-                Destroy(kvp.Key);
-                break;
+                if (kvp.Value[kvp.Value.Count - 1] == Moved[Moved.Count - 1] && kvp.Key != gameObject)
+                {
+                    GameObject.Find("Pieces").GetComponent<GeneratePieces>().Keys.Remove(kvp.Key);
+                    everyMove.Remove(kvp.Key);
+                    GameObject.Find("Canvas").GetComponent<GameController>().NewDestroyed(kvp.Key.GetComponent<SpriteRenderer>().sprite);
+                    Destroy(kvp.Key);
+                    break;
+                }
             }
+            GameObject.Find("Canvas").GetComponent<GameController>().PlayerChange();
         }
     }
     public Transform GetClosest(List<Transform> BP)
@@ -166,26 +169,19 @@ public class Moves : MonoBehaviour
             }
             if (a.Contains("B"))
             {
-                foreach (Transform tr in WhiteMoves)
+                foreach (Transform tr in WhiteTakes)
                 {
-                    Debug.Log("WhiteMoves");
-                    Debug.Log("Remove");
                     possibleMoves.Remove(tr);
                 }
+
             }else
             {
-                foreach (Transform tr in BlackMoves)
+                foreach (Transform tr in BlackTakes)
                 {
-                    if (possibleMoves.Contains(tr))
-                    {
-                        possibleMoves.Remove(tr);
-                    }
+                    possibleMoves.Remove(tr);
                 }
             }
-            if (possibleMoves.Count == 0)
-            {
-                Destroy(gameObject);
-            }
+
         }
         else if(a == "BB" || a == "WB")
         {
@@ -438,21 +434,48 @@ public class Moves : MonoBehaviour
             }
 
             //taking enemy pieces
-            if (a.Contains("W"))
+            if (BlackLocations.Contains(i - 7) && a.Contains("W")) //enemy left 4 white
             {
                 possibleMoves.Add(BPs[i - 7]);
+            }
+            if (BlackLocations.Contains(i + 9) && a.Contains("W")) //enemy right 4 white
+            {
                 possibleMoves.Add(BPs[i + 9]);
             }
-            if (a.Contains("B"))
+            if (WhiteLocations.Contains(i - 9) && a.Contains("B")) //enemy left 4 black
             {
-                possibleMoves.Add(BPs[i-9]);
-                possibleMoves.Add(BPs[i+7]);
+                possibleMoves.Add(BPs[i - 9]);
+            }
+            if (WhiteLocations.Contains(i + 7) && a.Contains("B")) //enemy right 4 black
+            {
+                possibleMoves.Add(BPs[i + 7]);
             }
 
             //in
             if (i % 8 == 7 && a.Contains("W"))
             {
+                /*
+                Sprites appear;
+                Select with onclick;
+                save and replace character;
+                */
+
                 
+
+
+                for (int j = 1; j < 5; j++)
+                {
+                    var P = new GameObject();
+                    var SR = P.AddComponent<SpriteRenderer>();
+                    P.transform.parent = transform;
+                    P.name = names[j];
+                    SR.sprite = Resources.LoadAll<Sprite>("cp")[j + 6];
+                    SR.drawMode = SpriteDrawMode.Sliced;
+                    SR.size = new Vector2(4, 4);
+                    Vector3 show = new Vector3(j, 4, -1);
+                    P.transform.position = show;
+                    P.AddComponent<BoxCollider2D>();
+                }
             }
             else if (i % 8 == 0 && a.Contains("B"))
             {
@@ -651,32 +674,54 @@ public class Moves : MonoBehaviour
                         goto Remove;
                     }
                 }
-                if (a.Contains("P"))
-                {
-                    if (a.Contains("W"))
-                    {
-                        if (BlackLocations.Contains(i+7))
-                        {
-                            
-                        }
-                    }
-                    else
-                    {
-                        
-                    }
-                }
+
             }
         possibleMoves.Add(BPs[i]);
     }
-    void GetMoves() 
+    void GetTakes() 
     {
+        BlackTakes.Clear();
+        WhiteTakes.Clear();
+        foreach (KeyValuePair<GameObject,List<int>> kvp in everyMove)
+        {
+            int i = BPs.IndexOf(kvp.Key.GetComponent<Moves>().GetClosest(BPs));
+            if (kvp.Key.name == "BP")
+            {
+                if (i >= 8)
+                {
+                    BlackTakes.Add(BPs[i - 9]);
+                }
+                if (i <=55)
+                {
+                    BlackTakes.Add(BPs[i + 7]);
+                }
+            }
+            else if (kvp.Key.name == "WP")
+            {
+                if (i >= 8)
+                {
+                    BlackTakes.Add(BPs[i - 9]);
+                }
+                if (i <= 55)
+                {
+                    BlackTakes.Add(BPs[i + 7]);
+                }
+            }
+        }
         foreach (GameObject OB in GameObject.FindGameObjectsWithTag("Black"))
         {
-            BlackMoves.AddRange(OB.GetComponent<Moves>().possibleMoves);
+            if (!OB.name.Contains("P"))
+            {
+                BlackTakes.AddRange(OB.GetComponent<Moves>().possibleMoves);
+            }
         }
         foreach (GameObject OB in GameObject.FindGameObjectsWithTag("White"))
         {
-            WhiteMoves.AddRange(OB.GetComponent<Moves>().possibleMoves);
+            if (!OB.name.Contains("P"))
+            {
+                WhiteTakes.AddRange(OB.GetComponent<Moves>().possibleMoves);
+            }
+        
         }
     }
 }
