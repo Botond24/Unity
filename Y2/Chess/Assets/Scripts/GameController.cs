@@ -102,7 +102,7 @@ public class GameController : MonoBehaviour
         {
             if (WD <= 7)
             {
-                RT.localPosition += new Vector3(368.75f, -218.75f + (62.5f * (WD % 8)), 0);
+                RT.localPosition += new Vector3(368.75f, -218.75f + (62.5f * (BD % 8)), 0);
             }
             else
             {
